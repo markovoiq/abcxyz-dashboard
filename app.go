@@ -6,7 +6,7 @@ import (
 	"log"
 	"math"
 	"net/http"
-	//"os"
+	"os"
 	"sort"
 	"strconv"
 )
@@ -52,7 +52,13 @@ func main() {
 	http.HandleFunc("/upload", uploadHandler)
 
 	log.Println("Сервер запущен на http://localhost:8080")
-	http.ListenAndServe(":8080", nil)
+	port := os.Getenv("PORT")
+	if port == "" {
+	    port = "8080"
+	}
+
+	log.Println("Сервер запущен на порту", port)
+	http.ListenAndServe(":"+port, nil)
 }
 
 func uploadPage(w http.ResponseWriter, r *http.Request) {
